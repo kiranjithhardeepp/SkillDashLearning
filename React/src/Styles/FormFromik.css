@@ -1,0 +1,28 @@
+.formContainer {
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid rgba(33, 33, 33, 0.15);
+    border-radius: 16px;
+}
+  
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+  
+.form-control {
+    background-color: rgba(0, 0, 0, 0.06); /* Set background color for inputs */
+    padding: 10px;
+    border: 1px solid rgba(33, 33, 33, 0.2);
+    border-radius: 4px;
+    margin-top: 5px; /* Space between label and input */
+}
+
+  
+.formCard{
+    width: 834px;
+    height: 752px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 16px;
+}

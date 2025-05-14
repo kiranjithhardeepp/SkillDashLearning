@@ -1,0 +1,131 @@
+body{
+  background-color: rgb(232, 232, 232);
+}
+
+.card{
+  border-radius: 20px;
+}
+
+.sideBar{
+  background-color: #ffff;
+  width: 270px;
+  border-radius: 10px;
+  height: 900px;
+}
+
+.links{
+  text-decoration: none;
+}
+
+.sideBar {
+  width: 200px;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.sideBar ul {
+  list-style-type: none; /* Removes bullets */
+  padding: 0;
+  margin: 0;
+}
+
+.sideBar li {
+  margin-bottom: 15px;
+}
+
+.links {
+  text-decoration: none; /* Removes underline */
+  color: #333; /* Text color */
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.links:hover {
+  color: #007bff; /* Changes color on hover */
+}
+
+.input {
+  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  height: 45px;
+  padding-left: 2.5rem;
+  box-shadow: 0 0 0 1.5pxrgb (221, 223, 245), 0 0 25px -17px #000;
+  border: 0;
+  border-radius: 12px;
+  outline: none;
+  color: rgb(9, 10, 19);
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: text;
+  z-index: 0;
+}
+/*   
+//add user */
+
+
+.add-user {
+  width: 838px;
+  border-radius: 16px;
+  background-color: rgb(255, 255, 255);;
+  font-family: 'Poppins', sans-serif;
+}
+
+.user-details-container,
+.user-details-container1,
+.user-details-container2,
+.user-details-container3,
+.user-details-container4 {
+  border: 1px solid rgba(34, 34, 34, 0.15);
+  border-radius: 16px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+label {
+  font-size: 12px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Apply input styles */
+.add-user input,
+.add-user select,
+.add-user textarea {
+  background-color: rgba(0, 0, 0, 0.06);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+}
+
+.circular-icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  display: flex;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-user-btn{
+  font-size: 12px;
+  width: 82px;
+  height: 32px;
+  background-color:white;
+  border:1px solid rgba(34, 34, 34, 0.15);
+  color: #1d2b38;
+}
+
+.circular-icon-btn-icon{
+  width: 30px;
+  height: 30px;
+} 
+
+.user-details-container3-form-select{
+  border: 1px solid rgba(34, 34, 34, 0.15);
+}
