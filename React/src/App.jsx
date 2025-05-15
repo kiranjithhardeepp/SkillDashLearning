@@ -14,9 +14,7 @@ function App() {
     <Router>
       <div className="container-fluid mt-5">
         <div className="row">
-          <div className="col-2">
-            <Sidebar />
-          </div>
+          <div className="col-2">{/* <Sidebar /> */}</div>
           <div className="col-10">
             <Routes>
               <Route path="/dashboard" element={<Home />} />
