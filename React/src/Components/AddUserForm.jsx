@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form as FormikForm, Field, ErrorMessage } from "formik";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Country, State, City } from "country-state-city";
@@ -7,11 +7,43 @@ import axios from "axios";
 import userValidationSchema from "../Common/validationSchema";
 import profilePic from "../assets/profilepic.jpg";
 import backArrow from "../assets/backArrow.png";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddUserForm = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [designations, setDesignations] = useState([]);
+  const [teams, setTeams] = useState([]);
+
   const allCountries = Country.getAllCountries();
+
+  useEffect(() => {
+    const fetchDesignations = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8080/api/v1/designation/getDesignations"
+        );
+        setDesignations(res.data);
+      } catch (error) {
+        console.error("Error fetching designations:", error);
+      }
+    };
+
+    const fetchTeams = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8080/api/v1/teamDetails/getTeams"
+        );
+        setTeams(res.data);
+      } catch (error) {
+        console.error("Error fetching teams:", error);
+      }
+    };
+
+    fetchDesignations();
+    fetchTeams();
+  }, []);
 
   const handleCountryChange = (e, setFieldValue) => {
     const countryCode = e.target.value;
@@ -32,6 +64,7 @@ const AddUserForm = () => {
   };
 
   const handleSubmit = async (values, { resetForm }) => {
+    console.log(values);
     const payload = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -42,8 +75,8 @@ const AddUserForm = () => {
       state: values.state,
       city: values.city,
       roleId: 1,
-      designationId: 1,
-      teamId: 1,
+      designationId: values.designation,
+      teamId: values.team,
       casUserName: values.casUserName,
       status: true,
       userGroupRequest: [
@@ -59,18 +92,17 @@ const AddUserForm = () => {
         },
       ],
     };
-    console.log(values);
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/v1/user/addUserDetails",
         payload
       );
-      console.log("Success:", response.data);
-      alert("User added successfully!");
+      toast.success("User added successfully!");
       resetForm();
     } catch (error) {
+      toast.error("Failed to add user.");
       console.error("Error:", error);
-      alert("Error adding user. Check console for details.");
     }
   };
 
@@ -90,7 +122,7 @@ const AddUserForm = () => {
           designation: "",
           team: "",
           userGroup: "",
-          casUserName: "", // ✅ Added
+          casUserName: "",
         }}
         validationSchema={userValidationSchema}
         onSubmit={handleSubmit}
@@ -167,7 +199,7 @@ const AddUserForm = () => {
                 </Col>
               </Row>
               <Row>
-                <Col>
+                <Col md={4}>
                   <Form.Label>Email</Form.Label>
                   <Field
                     name="email"
@@ -267,8 +299,69 @@ const AddUserForm = () => {
               </Row>
             </div>
 
-            {/* Job Info */}
             <div className="user-details-container3 mb-4">
+              <Row className="g-3">
+                <Col>
+                  <Form.Label>Cas Name</Form.Label>
+                  <Field
+                    name="casUserName"
+                    as={Form.Control}
+                    placeholder="Enter cas name"
+                  />
+                  <ErrorMessage
+                    name="casUserName"
+                    component="div"
+                    className="text-danger"
+                  />
+                </Col>
+                <Col>
+                  <Form.Label>Designation</Form.Label>
+                  <Field
+                    as={Form.Select}
+                    name="designation"
+                    className="user-details-container3-form-select"
+                  >
+                    <option value="">Select Designation</option>
+                    {designations.map((designation) => (
+                      <option
+                        key={designation.designationId}
+                        value={designation.designationId}
+                      >
+                        {designation.designationName}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="designation"
+                    component="div"
+                    className="text-danger"
+                  />
+                </Col>
+                <Col>
+                  <Form.Label>Team</Form.Label>
+                  <Field
+                    as={Form.Select}
+                    name="team"
+                    className="user-details-container3-form-select"
+                  >
+                    <option value="">Select Team</option>
+                    {teams.map((team) => (
+                      <option key={team.teamId} value={team.teamId}>
+                        {team.teamName}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="team"
+                    component="div"
+                    className="text-danger"
+                  />
+                </Col>
+              </Row>
+            </div>
+
+            {/* Extra Info */}
+            <div className="user-details-container4 mb-4">
               <Row className="g-3">
                 <Col>
                   <Form.Label>Role</Form.Label>
@@ -289,38 +382,6 @@ const AddUserForm = () => {
                     className="text-danger"
                   />
                 </Col>
-                <Col>
-                  <Form.Label>Designation</Form.Label>
-                  <Field
-                    name="designation"
-                    as={Form.Control}
-                    placeholder="Enter Designation"
-                  />
-                  <ErrorMessage
-                    name="designation"
-                    component="div"
-                    className="text-danger"
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Team</Form.Label>
-                  <Field
-                    name="team"
-                    as={Form.Control}
-                    placeholder="Enter Team"
-                  />
-                  <ErrorMessage
-                    name="team"
-                    component="div"
-                    className="text-danger"
-                  />
-                </Col>
-              </Row>
-            </div>
-
-            {/* Extra Info */}
-            <div className="user-details-container4 mb-4">
-              <Row className="g-3">
                 <Col md={6}>
                   <Form.Label>User Group</Form.Label>
                   <div className="d-flex align-items-center gap-2">
@@ -335,19 +396,6 @@ const AddUserForm = () => {
                   </div>
                   <ErrorMessage
                     name="userGroup"
-                    component="div"
-                    className="text-danger"
-                  />
-                </Col>
-                <Col md={6}>
-                  <Form.Label>Cas Name</Form.Label>
-                  <Field
-                    name="casUserName"
-                    as={Form.Control}
-                    placeholder="Enter cas name"
-                  />
-                  <ErrorMessage
-                    name="casUserName"
                     component="div"
                     className="text-danger"
                   />
@@ -369,6 +417,7 @@ const AddUserForm = () => {
           </FormikForm>
         )}
       </Formik>
+      <ToastContainer position="top-right" autoClose={1000} hideProgressBar />
     </Container>
   );
 };
